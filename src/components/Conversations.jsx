@@ -2,16 +2,9 @@ import React from 'react'
 import store from 'App/store'
 import Intro from './Intro'
 import {getMessage} from 'App/messages'
-import Inputs from 'App/components/Inputs';
-import Message from 'App/components/Message';
+import Message from './Message'
 import Typist from 'react-typist'
-import { 
-  toggleInputs, 
-  fetchExchange, 
-  uploadImage, 
-  advanceConversation, 
-  endConversation 
-} from 'App/actions'
+import { fetchExchange, uploadImage, advanceConversation, endConversation } from 'App/actions'
 
 const SearchAvatar = ({spell}) => (
   <div className="message__sender-name">{spell && 'Search '}</div>
@@ -26,8 +19,9 @@ export default class Conversation extends React.Component {
     super(props)
     this.renderConversation = this.renderConversation.bind(this)
   }
-  handleIntroDone() {
-    store.dispatch(toggleInputs())
+  componentDidUpdate() {
+    const totalHeight = document.body.clientHeight;
+    window.scrollTo(0, totalHeight);
   }
   handleNextMessage() {
     const { conversations, speaker, conversationStep, endReached } = store.getState();
@@ -56,38 +50,65 @@ export default class Conversation extends React.Component {
   }
   renderConversation(conversation, cIndex) {
     const messages = conversation.map((message, mIndex) => {
+      // Hacky way to find out whether the image should be shown or not
+      const showImage = mIndex !== (conversation.length - 1) && mIndex !== 0;
       const lastMessage = conversation[mIndex - 1]
       const isMessageGroup = lastMessage && lastMessage.speaker === message.speaker;
+      let className = 'message';
+      className += isMessageGroup ? ' message--group' : '';
+      className += ` message--${message.speaker}`;
 
       return (
-        <Message 
-          image={message.image}
-          speaker={message.speaker} 
-          showName={!isMessageGroup} 
-          key={`${mIndex}`} 
-          onDone={this.handleNextMessage.bind(this)}>
-          {getMessage({...message, id: `${cIndex}-${mIndex}`})}
-        </Message>
+        <div key={`${mIndex}`} className={className}>
+          {message.speaker === 'VISION' ? 
+            <VisionAvatar spell={!isMessageGroup} /> : 
+            <SearchAvatar spell={!isMessageGroup} />
+          }
+          <div className="message__content">
+            <Message onNext={this.handleNextMessage.bind(this)}>
+              {getMessage({...message, id: `${cIndex}-${mIndex}`})}
+            </Message>
+          </div>
+          {/*create component that only shows up after certain amount of time for image*/}
+          {(message.image && showImage) &&
+              <div className="message__content message__content--image">
+                <div 
+                  className="conversation__image"
+                  style={{
+                    backgroundImage: `url("${message.image}")`
+                  }}
+                />
+              </div>
+          }
+        </div>
       )
     })
 
     return (
       <div key={cIndex} className="conversation">
+        {conversation[0].image && 
+            <div 
+              className="conversation__image"
+              style={{
+                backgroundImage: `url(${conversation[0].image})`
+              }}
+            />}
+        {conversation[0].query && <p>{conversation[0].query}</p>}
         {messages}
       </div>
     )
   }
   render() {
-    const { conversations, endReached, showInputs } = store.getState()
+    const { conversations, endReached } = store.getState()
     const lastConversation = conversations.length ? conversations[conversations.length - 1] : []
     const lastMessage = lastConversation.length ? lastConversation[lastConversation.length - 1] : {}
 
-
     return (
       <div style={{minHeight: window.innerHeight}} className="conversations">
-        <Intro onDone={this.handleIntroDone} />
-        {conversations.map(this.renderConversation)}
-        {showInputs && <Inputs />}
+        <div className="conversations__inner">
+          {conversations.map(this.renderConversation)}
+          {endReached && <Intro looped={lastMessage.type === 'LOOP'} restarting={conversations.length} />}
+        </div>
       </div>
     )
   }

@@ -1,5 +1,5 @@
 import store from 'App/store'
-import React, { Fragment } from 'react'
+import React from 'react'
 import {uploadImage, startConversation, fetchExchange} from 'App/actions'
 
 const FILE_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
@@ -21,6 +21,7 @@ export default class Inputs extends React.Component {
       error: null,
       submitted: false,
       termValue: null,
+      animationStep: 3
     }
   }
   componentDidUpdate() {
@@ -95,58 +96,64 @@ export default class Inputs extends React.Component {
     this.setState({termValue: null})
   }
   renderImageInput() {
-    const state = this.state;
-    let className = 'input__btn'
+    let className = 'btn'
     className += this.state.termValue ? ' is-disabled' : '';
     return (
-      <Fragment>
+      <span>
         <input 
           onChange={this.handleImageSelected}
           type="file" 
           name="image"
           value=""
-          className="input__file-input"
+          className="inputs__file-input"
           id="image-upload"/>
         <label 
           className={className} 
           htmlFor={!this.state.termValue ? 'image-upload' : null}>
           Select an image
         </label>
-        {state.error && <p className="input__error">{state.error}</p>}
-      </Fragment>
+      </span>
     )
   }
   renderTermInput() {
     const value = this.state.termValue;// ? `${this.state.termValue}_` : '_'
     return (
-      <Fragment>
+      <span>
         <input 
-          className="input__text-input"
+          className="inputs__text-input"
           onBlur={this.handleTermInputBlur}
           onKeyPress={this.handleTermKeyPress}
           ref={(ref) => this.textInput = ref} 
           onInput={this.handleTermInput}
           value={value === null ? '' : value}
           autoFocus
-          placeholder="Enter a search term"
           type="text"/>
-        {this.state.termValue && <button 
-          onClick={this.handleTermUpload} 
-          className="input__btn input__btn--term">Send</button>}
-      </Fragment>
+      </span>
     )
   }
   render() {
-    return (
-      <div className="inputs">
-        <div className="input input--term">
-          {this.renderTermInput()}
+    const state = this.state;
+    if(!state.submitted)
+      return (
+        <div className="inputs">
+          <div className="inputs__controls">
+            <span>Either&nbsp;</span>
+            {this.renderImageInput()}
+            <span>&nbsp;or enter a topic ></span>
+            {this.renderTermInput()}
+          </div>
+
+          {state.error && <p className="inputs__error">{state.error}</p>}
+          
+          {(state.termValue || state.previewImage) && 
+            <div>
+              <button 
+                onClick={this.handleTermUpload}
+                className="btn">Go!</button>
+            </div>
+          }
         </div>
-        <span className="inputs__separator">or</span>
-        <div className="input input--image">
-          {this.renderImageInput()}
-        </div>
-      </div>
-    )
+      )
+    return <div className="inputs" />
   }
 }

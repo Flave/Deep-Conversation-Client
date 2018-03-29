@@ -16,17 +16,16 @@
   flex-direction: column;
 }
 
-.message__image {
+.conversation__image {
+  padding-top: 20vh;
   width: 100%;
   background-size: contain;
   background-position: left center;
   background-repeat: no-repeat;
-  margin-bottom: -8px;
 }
 
 .message {
   max-width: 40%;
-  margin-bottom: 5px;
 
   &--VISION {
     align-self: flex-end;
@@ -34,11 +33,6 @@
     .message__sender-name {
       text-align: right;
     }
-  }
-
-  &--image {
-    border-radius: 25px;
-    overflow: hidden;
   }
 }
 
@@ -48,11 +42,14 @@
   border-radius: 25px;
   padding: 10px 20px;
   margin-bottom: 10px;
+
+  &--image {
+    background-color: transparent;
+  }
 }
 
 .message__sender-name {
-  margin: 0 10px;
-  margin-bottom: 2px;
+  margin-right: 10px;
   min-width: 80px;
   font-size: 14px;
   color: #999;

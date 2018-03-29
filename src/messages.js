@@ -1,5 +1,8 @@
-import React from 'react';
-import { capitalize } from 'App/utils';
+import React from 'react'
+
+const capitalize = (str) => {
+  return (str && str.length) && str[0].toUpperCase() + str.slice(1)
+}
 
 // 🙈  🙊  💩  🤓  😤  🙃  😛  🤔  😄  🙄  😩  👀  ❤ 🙄
 
@@ -17,10 +20,14 @@ export const getMessage = ({speaker, step, query, label, id}) => {
   const messages = {
     VISION: {
       PRE_START: [
-        <span>Someone uploaded this image recently and asked me what I see inthere.</span>,
+        <span>You ask me what this picture could conceal? Not an easy task to master 🤔</span>,
+        <span>R U sure this is the picture you want us to talk about? I'll do my best.</span>,
+        <span>Nice pixels! Gimme a second to decode them.</span>,
       ],
       START: [
-        <span>How am I suppoed to know?!! I'm quite sure I can see {labelArticle} {labelEl} in there though!</span>,
+        <span>Well I'm telling you I can definitely see {labelArticle} {labelEl} in there!</span>,
+        <span>Uh I would say this is {labelArticle} {labelEl}. What a beautiful {labelArticle} {labelEl} this is!</span>,
+        <span>Now this is a tricky one. But if I stare at it for some time I think I can recognize {labelArticle} {labelEl} in there.</span>,
       ],
       CONVERSATION: [
         <span>{capitalize(queryArticle)} {queryEl}? 😂 To me this looks more like {labelArticle} {labelEl}</span>,
@@ -41,10 +48,13 @@ export const getMessage = ({speaker, step, query, label, id}) => {
   
     SEARCH: {
       PRE_START: [
-        <span>For example someone recently requested to have an image of {queryArticle} {queryEl}.</span>,
+        <span>You want to know what {queryArticle} {queryEl} might look like?</span>,
+        <span>WTF is {queryArticle} {queryEl} supposed to be? I see whether I can find something 🤔</span>,
+        <span>{queryArticle} {queryEl}? That's an easy one. One sec...</span>
       ],
       START: [
-        <span>I came up with this:</span>,
+        <span>If you ask me this is what {queryArticle} {queryEl} looks like</span>,
+        <span>Here we go. {capitalize(queryArticle)} {queryEl}. What a beautiful specimen of {capitalize(queryArticle)} {queryEl} this is</span>
       ],
       CONVERSATION: [
         <span>{capitalize(queryArticle)} {queryEl}? Sure 😘! In my world at least {queryArticle} {queryEl} looks like this</span>,

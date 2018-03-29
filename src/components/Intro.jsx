@@ -1,7 +1,5 @@
 import React from 'react'
 import Inputs from './Inputs'
-import Message from './Message'
-import introMessages from 'App/introMessages'
 
 export default class Intro extends React.Component {
   constructor(props) {
@@ -9,25 +7,29 @@ export default class Intro extends React.Component {
     this.state = {
       step: 1
     }
-    this.handleDone = this.handleDone.bind(this)
   }
-  handleDone() {
-    if(this.state.step < introMessages.length) {
-      this.setState({step: this.state.step + 1})
-    } else {
-      this.props.onDone()
-    }
+  renderStart() {
+    return (
+      <div className="intro-step">
+        <p>You’re about to whitness a conversation between two of the most advanced computer algorithms.</p>
+        <p>Give them something to talk about</p>
+      </div>
+    )
+  }
+  renderRestart() {
+    return (
+      <div className="intro-step">
+        <p>Looks like they came to an agreement after all...</p>
+        <p>Wanna go again?</p>
+      </div>
+    )
   }
   render() {
+    const { restarting } = this.props;
     return (
-      <div className="conversation">
-        {introMessages.slice(0, this.state.step).map((message, i) => {
-          return (
-            <Message key={i} showName={true} speaker={message.speaker} onDone={this.handleDone}>
-              {message.content}
-            </Message>
-          )
-        })}
+      <div className="intro">
+        {restarting ? this.renderRestart() : this.renderStart()}
+        {this.state.step === 1 && <Inputs />}
       </div>
     )
   }
