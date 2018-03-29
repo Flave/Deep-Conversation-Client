@@ -1,0 +1,22 @@
+.btn {
+  color: #fff;
+  border-radius: 100px;
+  padding: 3px 12px;
+  background-color: #3B53EC;
+  border: none;
+  box-shadow: inset -3px -3px 5px rgba(#000, .5), inset 3px 3px 5px rgba(#fff, .5);
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+
+  &--secondary {
+    color: #1c1c1c;
+    background-color: #eee;
+  }
+
+  &.is-disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,93 @@
+.inputs {
+  border-top: 1px solid #ddd;
+  display: flex;
+  position: relative;
+}
+
+.inputs__separator {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  color: #555;
+}
+
+.input {
+  width: 50%;
+  padding: 20px;
+  position: relative;
+
+  &--term {
+    border-right: 1px solid #ddd;
+  }
+
+  &--image {
+    text-align: center;
+  }
+}
+
+.input__btn {
+  color: $c-accent;
+  border: none;
+  cursor: pointer;
+
+  &--term {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.input__file-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.input__input-container {
+  position: relative;
+}
+
+.input__text-input {
+  background-color: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: inherit;
+  font-size: inherit;
+  outline: none;
+  outline-style:none;
+  box-shadow:none;
+  margin-left: 10px;
+  display: inline-block;
+  width: 100%;
+  padding-right: 40px;
+  //border-bottom: 1px solid rgba(255, 255, 255, .1);
+
+  // border: none;
+  // color: transparent;
+  // text-shadow: 0 0 0 #fff;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+.input__error {
+  color: #ff4ab4;
+}
+
+.input__clear-input {
+  position: absolute;
+  right: 8px;
+  cursor: pointer;
+  opacity: .5;
+  //color: #ff4ab4;
+}

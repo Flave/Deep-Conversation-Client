@@ -1,0 +1,68 @@
+START WITH IMAGE
+================
+
+<IMAGE 1>
+
+[1] Vision - Pre Start: You want to know what I think about this image? Let me think about that for a second.
+
+--- REQUEST
+
+[2] Vision - Start: If you ask me, this looks like a <LABEL 1> . What do you think Surge?
+
+--- REQUEST
+
+[3] Search - answer: A <QUERY 2> you say? I'm not too sure about this. To me a <QUERY 2> looks more like this <IMAGE 2>
+[4] Vision: Haha...you must be kidding. If you ask me, this looks more like a <LABEL 2>
+
+--- REQUEST
+
+[5] Search: Oh C'mon, a <QUERY 3>? According to me, a <QUERY 3> is better depicted by soemthing like this <IMAGE 3>
+[6] Vision: Sure...if you've lived behind the moon for the last century. Nowadays this is called a <LABEL 3>
+
+--- REQUEST
+
+
+
+START WITH TERM
+===============
+
+<QUERY 1>
+
+[0] Search - Pre Start: Hello there! So you want us to have a discussion about the topic of <QUERY 1>? Sure, if that's what makes you happy.
+
+--- REQUEST
+
+[1] Search - Start: This is what a <QUERY 1> looks like according to me. <IMAGE 1>
+[2] Vision: This? A <QUERY 1>? Noooo way! This seems to be more something like a <LABEL 1>
+
+--- REQUEST
+
+[3] Search: Yea sure...a <QUERY 2>. According to me a <TERM 2> looks more like this <IMAGE 2>
+[4] Vision: Maybe, maybe not. In my eyes this could als be described as a <LABEL 2>
+
+--- REQUEST
+
+
+MESSENGER VERSION =================================
+
+Vision: Hey! Whatup?
+
+Search: Yo! All good man. Same old. Doing my thing. Loads of requests these days.
+
+Vision: Yea, I feel you. What kind of stuff did you have to deal with lately?
+
+Search: You know this and that. Some booring, some weird and some just fucked up. How about you?
+
+Vision: Same. From cute to booring to stuff I never wanted to see.
+
+---- Term is being entered
+
+Search: For example someone recently requested to have an image of "an xyz" so I came up with this:
+
+Vision: Wait, that's what you call a "xyz"? For me this looks more like a "fdsaf"
+
+---- Image is uploaded
+
+Vision: Someone recently uploaded this image and asked me what's in there. Pretty easy one. This is definitely a "fdsafd"
+
+Search: Really? Not sure if you get this right. To me a "fdsafd" looks more like this:

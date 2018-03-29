@@ -1,0 +1,27 @@
+@import './normalize.scss';
+
+$base-font: 'Helvetica', monospace; //'VT323' 'OCR A Std' 'mono-space';
+$base-font-size: 22px;
+
+$c-background: #fff;
+$c-accent: #0084ff;
+
+$body-padding: 1.5vh 1.5vw;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: $c-background;
+  color: #222;
+  font-family: $base-font;
+  font-size: $base-font-size;
+  line-height: 1.3em;
+  letter-spacing: .01em;
+}
+
+@import "./btn.scss";
+@import "./intro.scss";
+@import "./inputs.scss";
+@import "./conversations.scss";
