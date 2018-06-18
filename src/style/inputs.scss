@@ -1,7 +1,12 @@
 .inputs {
   border-top: 1px solid #ddd;
   display: flex;
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: #fff;
 }
 
 .inputs__separator {
@@ -81,7 +86,27 @@
 }
 
 .input__error {
-  color: #ff4ab4;
+  color: #fff;
+  position: absolute;
+  background-color: #ff4ab4;
+  bottom: 85px;
+  margin: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  border-radius: 30px;
+
+  &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 18px;
+    height: 18px;
+    transform: translateX(-50%) rotate(45deg);
+    background-color: inherit;
+  }
 }
 
 .input__clear-input {

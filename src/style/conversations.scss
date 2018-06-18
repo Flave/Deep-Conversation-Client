@@ -2,6 +2,10 @@
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
+
+  &.has-inputs {
+    padding-bottom: 60px;
+  }
 }
 
 .conversations__inner {
@@ -16,22 +20,43 @@
   flex-direction: column;
 }
 
-.conversation__image {
-  padding-top: 20vh;
-  width: 100%;
-  background-size: contain;
-  background-position: left center;
-  background-repeat: no-repeat;
-}
-
 .message {
   max-width: 40%;
+  margin-bottom: 5px;
+  transform-origin: bottom left;
+  animation: 200ms pop-in;
 
   &--VISION {
+    transform-origin: bottom right;
     align-self: flex-end;
 
     .message__sender-name {
       text-align: right;
+    }
+
+    &.message__image-container {
+      align-self: flex-end;
+      margin-bottom: 15px;
+    }
+
+    .message__image {
+      background-position: right center;
+    }
+  }
+
+  &--META {
+    align-self: center;
+    font-size: 18px;
+    margin-bottom: 50vh;
+    text-align: center;
+
+    .message__content {
+      background-color: transparent;
+      color: #444;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 15px;
+      line-height: 1.4em;
     }
   }
 }
@@ -42,15 +67,204 @@
   border-radius: 25px;
   padding: 10px 20px;
   margin-bottom: 10px;
+}
 
-  &--image {
-    background-color: transparent;
+.message__image-container {
+  border-radius: 20px;
+  overflow: hidden;
+  width: auto;
+  max-width: none;
+  display: inline;
+  align-self: flex-start;
+  position: relative;
+  max-height: 30vh;
+
+  &--is-loading {
+    height: 30vh;
+    background-color: #ddd;
+  }
+
+  &:hover {
+    .message__image-url {
+      display: inline-block;
+    }
   }
 }
 
+.message__term-word {
+  font-weight: 600;
+}
+
+.message__term-link {
+  text-decoration: none;
+}
+
+.message__image {
+  background-size: contain;
+  background-position: left center;
+  background-repeat: no-repeat;
+  margin-bottom: -8px;
+}
+
+.message__image-url {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #fff;
+  background-color: rgba(0, 0, 0, .5);
+  font-size: 11px;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 18px;
+  border-top-right-radius: 5px;
+}
+
 .message__sender-name {
-  margin-right: 10px;
+  margin: 0 10px;
+  margin-bottom: 2px;
   min-width: 80px;
   font-size: 14px;
   color: #999;
 }
+
+.message__inline-image {
+  height: 1.1em;
+  width: auto;
+  vertical-align: middle;
+}
+
+.message__start-button {
+  background-color: $c-accent;
+  color: white;
+  display: inline-block;
+  border-radius: 30px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+// TYPING ANIMATION
+
+.typing {
+  border-radius: 200px;
+  background-color: #e4e4e4;
+  padding: 18px 20px;
+  display: flex;
+  align-self: flex-start;
+  position: relative;
+  margin-bottom: 8px;
+
+  &:after,
+  &:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 100%;
+    background-color: #e4e4e4;
+    left: -1px;
+    bottom: -1px;
+  }
+
+  &:before {
+    width: 8px;
+    height: 8px;
+    left: -7px;
+    bottom: -6px;
+  }
+
+  &--VISION {
+    align-self: flex-end;
+
+    &:after {
+      right: -1px;
+      left: auto;
+    }
+
+    &:before {
+      right: -7px;
+      left: auto;
+      bottom: -6px;
+    }
+  }
+}
+
+.typing-bubble {
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  background-color: #999;
+  margin-right: 5px;
+  animation: typing-bubble 1.5s infinite;
+
+  &:last-child {
+    margin: 0;
+  }
+
+  &--2 {
+    animation-delay: .1s;
+  }
+
+  &--3 {
+    animation-delay: .2s;
+  }
+}
+
+
+@keyframes typing-bubble {
+  0% {
+    opacity: .3;
+    transform: translateY(0);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(-8px);
+  }
+  30% {
+    opacity: .3;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: .3;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

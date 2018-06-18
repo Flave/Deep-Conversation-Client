@@ -9,7 +9,7 @@ export default [
   {
     speaker: 'SEARCH',
     step: 'INTRO',
-    content: <span>Yo! All good man. Same old. Doing my thing. Loads of requests these days.</span>
+    content: <span>All good so far. Same old. Just doing my thing. Loads of requests these days.</span>
   },
   {
     speaker: 'VISION',
@@ -24,7 +24,7 @@ export default [
   {
     speaker: 'VISION',
     step: 'INTRO',
-    content: <span>Same. From cute to booring to stuff I never wanted to see.</span>
+    content: <span>Same here...cute stuff, booring stuff and stuff I honestly never wanted to see.</span>
   },
 ]
  

@@ -10,7 +10,8 @@ const initialState = {
   conversations: [],
   buffer: [],
   endReached: true,
-  showInputs: false
+  showInputs: false,
+  typing: null
 }
 
 function receiveExchange(state, {data}) {
@@ -58,11 +59,15 @@ function receiveExchange(state, {data}) {
     })
   }
 
-  state.conversations = [
+  const conversations = [
     ...state.conversations,
     conversation
   ]
-  return state;
+  return {
+    ...state,
+    conversations,
+    typing: null
+  };
 }
 
 function startConversation(state, {data}) {
@@ -83,15 +88,20 @@ function advanceConversation(state) {
   const currentConversation = state.conversations.pop();
   const nextMessage = state.buffer.shift()
 
-  state.conversations = [
+  const conversations = [
     ...state.conversations,
     [
       ...currentConversation,
       nextMessage
     ]
   ]
-  state.buffer = [...state.buffer]
-  return state;
+  const buffer = [...state.buffer]
+  return {
+    ...state,
+    conversations,
+    buffer,
+    typing: null
+  };
 }
 
 export default (state = initialState, action) => {
@@ -104,8 +114,10 @@ export default (state = initialState, action) => {
     return advanceConversation(state)
   case 'TOGGLE_INPUTS':
     return {...state, showInputs: !state.showInputs}
+  case 'START_TYPING':
+    return {...state, typing: action.data}
   case 'END_CONVERSATION':
-    return {...state, endReached: true}
+    return {...state, endReached: true, typing: null}
   default:
     return state;
   }

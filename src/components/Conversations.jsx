@@ -2,9 +2,18 @@ import React from 'react'
 import store from 'App/store'
 import Intro from './Intro'
 import {getMessage} from 'App/messages'
-import Message from './Message'
+import Inputs from 'App/components/Inputs';
+import Message from 'App/components/Message';
+import TypingAnimation from 'App/components/TypingAnimation';
 import Typist from 'react-typist'
-import { fetchExchange, uploadImage, advanceConversation, endConversation } from 'App/actions'
+import { 
+  toggleInputs, 
+  fetchExchange, 
+  uploadImage, 
+  advanceConversation, 
+  endConversation,
+  startTyping
+} from 'App/actions'
 
 const SearchAvatar = ({spell}) => (
   <div className="message__sender-name">{spell && 'Search '}</div>
@@ -19,20 +28,24 @@ export default class Conversation extends React.Component {
     super(props)
     this.renderConversation = this.renderConversation.bind(this)
   }
-  componentDidUpdate() {
-    const totalHeight = document.body.clientHeight;
-    window.scrollTo(0, totalHeight);
+  handleIntroDone() {
+    store.dispatch(toggleInputs())
   }
   handleNextMessage() {
     const { conversations, speaker, conversationStep, endReached } = store.getState();
     const currentConversation = conversations[conversations.length - 1];
-    let lastMessage = currentConversation[currentConversation.length - 1];
+    const lastMessage = currentConversation[currentConversation.length - 1];
 
+    // if is first message after input, check if exchange needs to 
+    // be fetched or image needs to be uploaded
     if(lastMessage.step === 'PRE_START') {
-      if(lastMessage.speaker === 'VISION')
+      if(lastMessage.speaker === 'VISION') {
         store.dispatch(uploadImage(lastMessage.formData))
-      else
+      }
+      else {
         store.dispatch(fetchExchange(lastMessage.query))
+      }
+    // if end was reached don't send any further requests
     } else if (lastMessage.step === 'END') {
       store.dispatch(endConversation());
     } else if (lastMessage.step === 'LOOP') {
@@ -41,74 +54,65 @@ export default class Conversation extends React.Component {
       } else {
         store.dispatch(endConversation());
       }
+    // else, just continue the conversation, unless it has been ended
     } else {
-      if(lastMessage.speaker === 'VISION')
+      if(lastMessage.speaker === 'VISION') {
         !endReached && store.dispatch(fetchExchange(lastMessage.label))
-      else
-        store.dispatch(advanceConversation())
+      }
+      else {
+        store.dispatch(advanceConversation());
+      }
     }
   }
+  startTyping() {
+    const { conversations } = store.getState();
+    const currentConversation = conversations[conversations.length - 1];
+    const lastMessage = currentConversation[currentConversation.length - 1];
+    let nextSpeaker = lastMessage.speaker === 'VISION' ? 'SEARCH' : 'VISION';
+
+    if(lastMessage.step === 'END') return;
+    if(lastMessage.step === 'PRE_START')
+      nextSpeaker = lastMessage.speaker
+
+    store.dispatch(startTyping(nextSpeaker))
+  }
   renderConversation(conversation, cIndex) {
+    const { typing, conversations } = store.getState();
+
     const messages = conversation.map((message, mIndex) => {
-      // Hacky way to find out whether the image should be shown or not
-      const showImage = mIndex !== (conversation.length - 1) && mIndex !== 0;
       const lastMessage = conversation[mIndex - 1]
       const isMessageGroup = lastMessage && lastMessage.speaker === message.speaker;
-      let className = 'message';
-      className += isMessageGroup ? ' message--group' : '';
-      className += ` message--${message.speaker}`;
 
       return (
-        <div key={`${mIndex}`} className={className}>
-          {message.speaker === 'VISION' ? 
-            <VisionAvatar spell={!isMessageGroup} /> : 
-            <SearchAvatar spell={!isMessageGroup} />
-          }
-          <div className="message__content">
-            <Message onNext={this.handleNextMessage.bind(this)}>
-              {getMessage({...message, id: `${cIndex}-${mIndex}`})}
-            </Message>
-          </div>
-          {/*create component that only shows up after certain amount of time for image*/}
-          {(message.image && showImage) &&
-              <div className="message__content message__content--image">
-                <div 
-                  className="conversation__image"
-                  style={{
-                    backgroundImage: `url("${message.image}")`
-                  }}
-                />
-              </div>
-          }
-        </div>
+        <Message
+          duration={message.step === 'END' ? 0 : 3000}
+          image={message.image}
+          speaker={message.speaker} 
+          showName={!isMessageGroup} 
+          key={`${mIndex}`}
+          onProbablyRead={this.startTyping}
+          onDone={this.handleNextMessage.bind(this)}>
+          {getMessage({...message, id: `${cIndex}-${mIndex}`, stepIndex: mIndex - 2})}
+        </Message>
       )
     })
 
     return (
       <div key={cIndex} className="conversation">
-        {conversation[0].image && 
-            <div 
-              className="conversation__image"
-              style={{
-                backgroundImage: `url(${conversation[0].image})`
-              }}
-            />}
-        {conversation[0].query && <p>{conversation[0].query}</p>}
         {messages}
+        {(typing && cIndex === conversations.length - 1) && <TypingAnimation speaker={typing} />}
       </div>
     )
   }
   render() {
-    const { conversations, endReached } = store.getState()
-    const lastConversation = conversations.length ? conversations[conversations.length - 1] : []
-    const lastMessage = lastConversation.length ? lastConversation[lastConversation.length - 1] : {}
-
+    const { conversations, endReached, showInputs } = store.getState()
+    let className = 'conversations';
+    className += showInputs ? ' has-inputs' : '';
     return (
-      <div style={{minHeight: window.innerHeight}} className="conversations">
-        <div className="conversations__inner">
-          {conversations.map(this.renderConversation)}
-          {endReached && <Intro looped={lastMessage.type === 'LOOP'} restarting={conversations.length} />}
-        </div>
+      <div style={{minHeight: window.innerHeight}} className={className}>
+        <Intro onDone={this.handleIntroDone} />
+        {conversations.map(this.renderConversation)}
+        {showInputs && <Inputs />}
       </div>
     )
   }

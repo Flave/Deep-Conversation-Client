@@ -1,5 +1,10 @@
 import {ajax} from 'jquery'
 
+// eslint-disable-next-line no-undef
+const server = process.env.NODE_ENV === 'production' ? 
+  'https://smartiez.uber.space/server' : 
+  'http://localhost:8080';
+
 
 const receiveExchange = (data) => ({
   type: 'RECEIVE_EXCHANGE',
@@ -19,12 +24,17 @@ export const toggleInputs = () => ({
   type: 'TOGGLE_INPUTS'
 })
 
+export const startTyping = (data) => ({
+  type: 'START_TYPING',
+  data
+})
+
 export const endConversation = () => ({
   type: 'END_CONVERSATION'
 })
 
 export const uploadImage = (data) => ajax({
-  url: 'http://localhost:8080/upload',
+  url: `${server}/upload`,
   type: 'POST',
   data,
   cache: false,
@@ -35,7 +45,7 @@ export const uploadImage = (data) => ajax({
   .then((response) => receiveExchange(response))
 
 export const fetchExchange = (term) => ajax({
-  url: `http://localhost:8080/term?q=${term}`,
+  url: `${server}/term?q=${term}`,
   type: 'GET',
   dataType: 'json',
   processData: false,
