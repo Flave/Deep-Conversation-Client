@@ -25,21 +25,26 @@ export default class Conversation extends React.Component {
     this.scrollToBottom()
   }
   componentDidMount() {
-    const typingDuration = this.props.duration || 3000;
-    const waitingDuration = Math.random() * 2 * FACTOR + 3 * FACTOR;
+    let durationUntilNext = this.props.durationUntilNext || 3000;
+    let durationUntilRead = this.props.durationUntilRead || 2000;
+
+    if(this.props.image) {
+      durationUntilNext += 1000;
+      durationUntilRead += 1000;
+    }
 
     if(this.props.image) {
       window.setTimeout(() => {
         this.setState({renderImage: true})
-      }, 2000)      
+      }, 1000)      
     }
     window.setTimeout(() => {
       this.props.onDone && this.props.onDone()
-    }, typingDuration)
+    }, durationUntilNext)
 
     window.setTimeout(() => {
       this.props.onProbablyRead && this.props.onProbablyRead()
-    }, waitingDuration)
+    }, durationUntilRead)
   }
   render() {
     const { speaker, image, children, showName } = this.props;

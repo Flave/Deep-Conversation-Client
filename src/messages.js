@@ -91,7 +91,7 @@ export const getMessage = ({speaker, step, query, label, id, stepIndex}) => {
       END: [
         <span>Yes I kind of agree. This definitely looks like <Label term={label} /></span>,
         <span>Aight, now we're talking. I agree. This is what a proper <Label addArticle={false} term={label} /> looks like.</span>,
-        <span>Finally you're starting to make sense. <Label term={label} /> sounds like a good guess.</span>
+        <span>Finally you're starting to make sense. <Label capitalized={true} term={label} /> sounds like a good guess.</span>
       ],
       LOOP: [
         <span>To me this looks more like <Label term={label} /> again. Maybe we should wrap this up. I don't feel like we're getting anywhere.</span>
@@ -138,7 +138,6 @@ export const getMessage = ({speaker, step, query, label, id, stepIndex}) => {
   const target = stepExceedsOptions ? Math.floor(messageGroup.length * .75) : stepIndex;
   const sigma = stepExceedsOptions ? 2 : 4;
   const index = getRandomNormalIndex(target, messageGroup.length, sigma)
-  console.log(index, stepIndex, messageGroup.length)
   message = messageGroup[Math.floor(Math.random() * messageGroup.length)];
   messagesCache.set(id, message);
   return message;

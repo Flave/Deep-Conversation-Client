@@ -4,7 +4,9 @@ import Message from './Message'
 import introMessages from 'App/introMessages'
 import TypingAnimation from 'App/components/TypingAnimation'
 
-const FACTOR = 1000;
+const FACTOR = 10;
+
+/*<img className="message__inline-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" />*/
 
 export default class Intro extends React.Component {
   constructor(props) {
@@ -26,7 +28,7 @@ export default class Intro extends React.Component {
       })
 
       if(this.state.step < introMessages.length) {
-        const waitingDuration = Math.random() * 2 * FACTOR + 2.5 * FACTOR;
+        const waitingDuration = Math.random() * 2.5 * FACTOR + 2 * FACTOR;
         window.setTimeout(() => {
           this.setState({
             typing: introMessages[this.state.step].speaker
@@ -48,7 +50,7 @@ export default class Intro extends React.Component {
     return (
       <div>
         <div>
-          You're about to witness a heated discussion between two of <img className="message__inline-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" /> most advanced algorithms, <a href="https://cloud.google.com/vision/">Cloud Vision</a> and <a target="_blank" href="https://www.google.de/imghp?tbm=isch">Image Search</a>. They might use strong language.
+          You're about to witness a discussion between two of Google's most advanced algorithms, <a href="https://cloud.google.com/vision/">Cloud Vision</a> and <a target="_blank" href="https://www.google.de/imghp?tbm=isch">Image Search</a>. It might get heated. They might use strong language.
         </div>
         <div><span className="message__start-button" onClick={this.start}>Start</span></div>
       </div>
@@ -66,7 +68,13 @@ export default class Intro extends React.Component {
           const isLast = i === introMessages.length - 1;
           const typingDuration = isLast ? 0 : Math.random() * 3 * FACTOR + 4 * FACTOR;
           return (
-            <Message duration={typingDuration} key={i} showName={true} speaker={message.speaker} onDone={this.handleDone}>
+            <Message 
+              durationUntilNext={typingDuration}
+              onDone={this.handleDone}
+              key={i} 
+              showName={true} 
+              speaker={message.speaker} 
+            >
               {message.content}
             </Message>
           )

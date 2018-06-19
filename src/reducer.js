@@ -32,7 +32,7 @@ function receiveExchange(state, {data}) {
     })
 
     let step = isLooping ? 'LOOP' : 'CONVERSATION'
-    step = (label === data.query) ? 'END' : step
+    step = (label.toLowerCase() === data.query.toLowerCase()) ? 'END' : step
 
     state.buffer = [{
       label,

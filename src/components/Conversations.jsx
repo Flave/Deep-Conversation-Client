@@ -65,33 +65,37 @@ export default class Conversation extends React.Component {
     }
   }
   startTyping() {
-    const { conversations } = store.getState();
+    const { conversations, endReached } = store.getState();
     const currentConversation = conversations[conversations.length - 1];
     const lastMessage = currentConversation[currentConversation.length - 1];
     let nextSpeaker = lastMessage.speaker === 'VISION' ? 'SEARCH' : 'VISION';
 
-    if(lastMessage.step === 'END') return;
+    if(lastMessage.step === 'END' || endReached) return;
     if(lastMessage.step === 'PRE_START')
       nextSpeaker = lastMessage.speaker
-
     store.dispatch(startTyping(nextSpeaker))
   }
   renderConversation(conversation, cIndex) {
-    const { typing, conversations } = store.getState();
+    const { typing, conversations, endReached } = store.getState();
+    const isLastConversation = cIndex === conversations.length - 1;
 
     const messages = conversation.map((message, mIndex) => {
-      const lastMessage = conversation[mIndex - 1]
+      const lastMessage = conversation[mIndex - 1];
       const isMessageGroup = lastMessage && lastMessage.speaker === message.speaker;
+      const durationUntilNext = message.step === 'END' ? 0 : 3000;
+      const durationUntilRead = 2000;
+      const doType = message.step !== 'LOOP';
 
       return (
         <Message
-          duration={message.step === 'END' ? 0 : 3000}
+          durationUntilNext={durationUntilNext}
+          onDone={this.handleNextMessage.bind(this)}
+          durationUntilRead={durationUntilRead}
+          onProbablyRead={doType && this.startTyping}
           image={message.image}
           speaker={message.speaker} 
           showName={!isMessageGroup} 
-          key={`${mIndex}`}
-          onProbablyRead={this.startTyping}
-          onDone={this.handleNextMessage.bind(this)}>
+          key={`${mIndex}`}>
           {getMessage({...message, id: `${cIndex}-${mIndex}`, stepIndex: mIndex - 2})}
         </Message>
       )
@@ -100,7 +104,7 @@ export default class Conversation extends React.Component {
     return (
       <div key={cIndex} className="conversation">
         {messages}
-        {(typing && cIndex === conversations.length - 1) && <TypingAnimation speaker={typing} />}
+        {(typing && isLastConversation) && <TypingAnimation speaker={typing} />}
       </div>
     )
   }
