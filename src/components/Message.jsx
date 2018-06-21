@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
+import { timer } from 'd3-timer';
 import { capitalize } from 'App/utils';
-import { timer } from 'd3';
 
 const FACTOR = 2000;
 
@@ -25,8 +25,8 @@ export default class Conversation extends React.Component {
     this.scrollToBottom()
   }
   componentDidMount() {
-    let durationUntilNext = this.props.durationUntilNext || 3000;
-    let durationUntilRead = this.props.durationUntilRead || 2000;
+    let durationUntilNext = this.props.durationUntilNext || 4000;
+    let durationUntilRead = this.props.durationUntilRead || 3000;
 
     if(this.props.image) {
       durationUntilNext += 1000;
@@ -47,12 +47,14 @@ export default class Conversation extends React.Component {
     }, durationUntilRead)
   }
   render() {
-    const { speaker, image, children, showName } = this.props;
-
+    const { speaker, type, image, children, showName } = this.props;
+    const speakerIcon = speaker === 'VISION' ? '👀' : '🔍';
+    const speakerName = `${speakerIcon} ${capitalize(speaker)}`;
+    
     return (
       <Fragment>
         <div className={`message message--${speaker}`}>
-          {showName && <div className="message__sender-name">{capitalize(speaker)}</div>}
+          {showName && <div className="message__sender-name">{speakerName}</div>}
           <div className="message__content">
             {children}
           </div>

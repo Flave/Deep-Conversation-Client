@@ -19,9 +19,29 @@ function receiveExchange(state, {data}) {
   // check if this is the first exchange to be returned, if so 
   // it does not have labels
 
+  if(data.error) {
+    const lastMessage = conversation.pop(conversation.length - 1);
+    const conversations = [
+      ...state.conversations,
+      [ 
+        ...conversation,
+        {
+          ...lastMessage,
+          step: data.error,
+          ended: true
+        }
+      ]
+    ]
+    return {
+      ...state,
+      conversations,
+      endReached: true,
+      typing: null
+    };
+  }
+
   const label = data.labels[0];
   const isLooping = _find(conversation, {label})
-
 
   if(data.query) {
     conversation.push({
@@ -71,16 +91,18 @@ function receiveExchange(state, {data}) {
 }
 
 function startConversation(state, {data}) {
+  const speaker = data.query ? 'SEARCH' : 'VISION';
   const conversations = [...state.conversations, [{
     ...data,
     step: 'PRE_START',
-    speaker: data.query ? 'SEARCH' : 'VISION'
+    speaker
   }]]
 
   return {
     ...state,
     conversations,
-    endReached: false
+    endReached: false,
+    typing: null
   };
 }
 
@@ -104,6 +126,18 @@ function advanceConversation(state) {
   };
 }
 
+function endConversation(state) {
+  const lastConversation = state.conversations.pop(state.conversations.length - 1);
+  const lastMessage = lastConversation.pop(lastConversation.lengt - 1);
+
+  return {
+    ...state,
+    conversations: [...state.conversations, [...lastConversation, {...lastMessage, ended: true}]],
+    endReached: true, 
+    typing: null
+  }
+}
+
 export default (state = initialState, action) => {
   switch (action.type) {
   case 'RECEIVE_EXCHANGE':
@@ -117,7 +151,7 @@ export default (state = initialState, action) => {
   case 'START_TYPING':
     return {...state, typing: action.data}
   case 'END_CONVERSATION':
-    return {...state, endReached: true, typing: null}
+    return endConversation(state)
   default:
     return state;
   }

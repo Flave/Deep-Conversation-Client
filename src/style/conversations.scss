@@ -18,6 +18,12 @@
   padding: $body-padding;
   display: flex;
   flex-direction: column;
+  border-top: 1px solid #eee;
+  padding-top: 30px;
+
+  &:first-child {
+    border-top: none;
+  }
 }
 
 .message {
@@ -44,19 +50,47 @@
     }
   }
 
-  &--META {
+  &--INTRO {
     align-self: center;
-    font-size: 18px;
+    transform-origin: bottom center;
+    font-size: 26px;
     margin-bottom: 50vh;
     text-align: center;
+    max-width: 65%;
+    animation-duration: .2s;
 
     .message__content {
       background-color: transparent;
-      color: #444;
+    }
+
+    .message__meta-content {
+      padding: 30px 35px;
+      border-radius: 35px;
+      line-height: 1.35em;
+      color: #666;
+      background-color: #ddd;
+    }
+
+    a {
       font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 15px;
-      line-height: 1.4em;
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  &--HINT {
+    align-self: center;
+    font-size: 18px;
+    margin-top: 25px;
+    transform-origin: bottom center;
+    animation-duration: .2s;
+
+    .message__content {
+      color: #666;
+      background-color: #ddd;
+      line-height: 1.3em;
+      padding: 13px 20px;
+      text-align: center;
     }
   }
 }
@@ -65,12 +99,11 @@
   background-color: $c-accent;
   color: #fff;
   border-radius: 25px;
-  padding: 10px 20px;
+  padding: 15px 22px;
   margin-bottom: 10px;
 }
 
 .message__image-container {
-  border-radius: 20px;
   overflow: hidden;
   width: auto;
   max-width: none;
@@ -78,9 +111,10 @@
   align-self: flex-start;
   position: relative;
   max-height: 30vh;
+  border-radius: 20px;
 
   &--is-loading {
-    height: 30vh;
+    height: 10vh;
     background-color: #ddd;
   }
 
@@ -91,19 +125,18 @@
   }
 }
 
+
+.message__image {
+  max-height: 30vh;
+  margin-bottom: -8px;
+}
+
 .message__term-word {
   font-weight: 600;
 }
 
 .message__term-link {
   text-decoration: none;
-}
-
-.message__image {
-  background-size: contain;
-  background-position: left center;
-  background-repeat: no-repeat;
-  margin-bottom: -8px;
 }
 
 .message__image-url {
@@ -137,11 +170,10 @@
 }
 
 .message__start-button {
-  background-color: $c-accent;
-  color: white;
+  color: $c-accent;
   display: inline-block;
   border-radius: 30px;
-  margin-top: 20px;
+  margin-top: 25px;
   padding: 10px 20px;
   cursor: pointer;
 }

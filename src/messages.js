@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { capitalize } from 'App/utils';
-import { randomNormal } from 'd3';
+import { randomNormal } from 'd3-random';
 
 // 🙈  🙊  💩  🤓  😤  🙃  😛  🤔  😄  🙄  😩  👀  ❤ 🙄
 
@@ -81,15 +81,16 @@ export const getMessage = ({speaker, step, query, label, id, stepIndex}) => {
       CONVERSATION: [
         <span>Sure, if you want to be really specific. But I think you can also just call this <Label term={label}/></span>,
         <span>Good guess. But to me this looks more like <Label term={label} /></span>,
-        <span>Maybe. But I think this couls also be <Label term={label} /></span>,
+        <span>Maybe. But I think this could also be <Label term={label} /></span>,
         <span>Depending from what angle you look at it. Maybe. But I would rather go with "<Label addArticle={false} term={label} />"</span>,
-        <span>This is <Query term={query} /> according to you? 😂😂😂 To me this looks more like <Label term={label} /></span>,
+        <span>This is <Query term={query} /> according to you? 😂 To me this looks more like <Label term={label} /></span>,
         <span>This is what you think <Query term={query} /> looks like? R U kidding? I think I can rather see <Label term={label} /> in there</span>,
         <span>Now you're being delusional 🙃. This definitely is <Label term={label} /></span>,
         <span>Haha...not in a million years. Clearly this is <Label term={label} /></span>,
       ],
       END: [
         <span>Yes I kind of agree. This definitely looks like <Label term={label} /></span>,
+        <span>Cool 👏 I'm really glad that we can at least agree on what <Query term={query} /> looks like.</span>,
         <span>Aight, now we're talking. I agree. This is what a proper <Label addArticle={false} term={label} /> looks like.</span>,
         <span>Finally you're starting to make sense. <Label capitalized={true} term={label} /> sounds like a good guess.</span>
       ],
@@ -109,13 +110,13 @@ export const getMessage = ({speaker, step, query, label, id, stepIndex}) => {
         <span>Possibly. But actually I would say this comes closer to <Query term={query} /></span>,
         <span>Not really sure about that. When I think of <Query term={query} /> I think of something like this</span>,
         <span>I can see how you come to this conclusion but where I'm from <Query term={query} /> looks like this</span>,
-        <span>Yeeeea...no not really. Maybe if you close one eye. But for me this comes closer to <Query term={query} /></span>,
+        <span>Yeeeea...no not really 🙄 Maybe if you close one eye. But for me this comes closer to <Query term={query} /></span>,
         <span>Haha...you're joking, right?! 1 sec. I'll show you what <Query term={query} /> looks like.</span>,
         <span>Yeah sure...<Query term={query} capitalized={true} />! In my world at least <Query term={query} /> looks like this</span>,
         <span>And they call you a "Superbrain"? I would <Query term={query} /> is better depicted by something this</span>,
         <span>Seriously but now we are just splitting hairs. <Query term={query} capitalized={true} /> clearly looks like this </span>,
         <span>Hahaha...you cannot make this 💩 up! Where I'm from <Query term={query} /> looks like this</span>,
-        <span>Your parents clearly did something wrong if you seriously think this is <Query term={query} />. I've been told that a <Query term={query} /> looks like this  </span>
+        <span>Your parents clearly did something wrong if you seriously think this is <Query term={query} /> 🤔 I've been told that a <Query term={query} /> looks like this  </span>
       ],
       END: [
         <span>Finally you're starting to make sense ❤. <Query term={query} /> sounds like a good guess.</span>,
@@ -124,6 +125,12 @@ export const getMessage = ({speaker, step, query, label, id, stepIndex}) => {
       LOOP: [
         <span>Man, looks to me like we're moving in circles&hellip; Let's agree to disagree</span>,
         <span>Yep you've said this before 🙃. I don't see this discussion going anywhere useful</span>
+      ]
+    },
+
+    ERROR: {
+      NO_IMAGES_FOUND: [
+        <span>Looks like Search has trouble getting started talking about <Query term={query} />. How about entering a topic that actually exists?</span>,
       ]
     }
   }

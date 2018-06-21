@@ -4,8 +4,8 @@ import Intro from './Intro'
 import {getMessage} from 'App/messages'
 import Inputs from 'App/components/Inputs';
 import Message from 'App/components/Message';
+import RestartMessage from 'App/components/RestartMessage';
 import TypingAnimation from 'App/components/TypingAnimation';
-import Typist from 'react-typist'
 import { 
   toggleInputs, 
   fetchExchange, 
@@ -14,6 +14,8 @@ import {
   endConversation,
   startTyping
 } from 'App/actions'
+
+const FACTOR = 1000;
 
 const SearchAvatar = ({spell}) => (
   <div className="message__sender-name">{spell && 'Search '}</div>
@@ -35,7 +37,6 @@ export default class Conversation extends React.Component {
     const { conversations, speaker, conversationStep, endReached } = store.getState();
     const currentConversation = conversations[conversations.length - 1];
     const lastMessage = currentConversation[currentConversation.length - 1];
-
     // if is first message after input, check if exchange needs to 
     // be fetched or image needs to be uploaded
     if(lastMessage.step === 'PRE_START') {
@@ -78,12 +79,14 @@ export default class Conversation extends React.Component {
   renderConversation(conversation, cIndex) {
     const { typing, conversations, endReached } = store.getState();
     const isLastConversation = cIndex === conversations.length - 1;
+    const lastMessage = conversation[conversation.length - 1];
 
     const messages = conversation.map((message, mIndex) => {
-      const lastMessage = conversation[mIndex - 1];
-      const isMessageGroup = lastMessage && lastMessage.speaker === message.speaker;
-      const durationUntilNext = message.step === 'END' ? 0 : 3000;
-      const durationUntilRead = 2000;
+      const previousMessage = conversation[mIndex - 1];
+      const isMessageGroup = previousMessage && previousMessage.speaker === message.speaker;
+      const isLastMessage = message.step === 'LOOP' || message.step === 'END';
+      const durationUntilNext = isLastMessage ? (1.5 * FACTOR) : 3 * FACTOR;
+      const durationUntilRead = 2 * FACTOR;
       const doType = message.step !== 'LOOP';
 
       return (
@@ -93,8 +96,8 @@ export default class Conversation extends React.Component {
           durationUntilRead={durationUntilRead}
           onProbablyRead={doType && this.startTyping}
           image={message.image}
-          speaker={message.speaker} 
-          showName={!isMessageGroup} 
+          speaker={message.speaker}
+          showName={!isMessageGroup}
           key={`${mIndex}`}>
           {getMessage({...message, id: `${cIndex}-${mIndex}`, stepIndex: mIndex - 2})}
         </Message>
@@ -105,6 +108,7 @@ export default class Conversation extends React.Component {
       <div key={cIndex} className="conversation">
         {messages}
         {(typing && isLastConversation) && <TypingAnimation speaker={typing} />}
+        {lastMessage.ended && <RestartMessage lastMessage={lastMessage} />}
       </div>
     )
   }
@@ -112,11 +116,12 @@ export default class Conversation extends React.Component {
     const { conversations, endReached, showInputs } = store.getState()
     let className = 'conversations';
     className += showInputs ? ' has-inputs' : '';
+
     return (
       <div style={{minHeight: window.innerHeight}} className={className}>
         <Intro onDone={this.handleIntroDone} />
         {conversations.map(this.renderConversation)}
-        {showInputs && <Inputs />}
+        {showInputs && <Inputs disabled={!endReached} />}
       </div>
     )
   }

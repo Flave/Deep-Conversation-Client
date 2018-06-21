@@ -24,7 +24,7 @@ export default [
   {
     speaker: 'VISION',
     step: 'INTRO',
-    content: <span>Same here...cute stuff, booring stuff and stuff I honestly never wanted to see.</span>
+    content: <span>Same here. Cute stuff, booring stuff and stuff I honestly never wanted to see &hellip;</span>
   },
 ]
  

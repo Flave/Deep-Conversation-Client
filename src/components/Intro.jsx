@@ -2,9 +2,10 @@ import React from 'react'
 import Inputs from './Inputs'
 import Message from './Message'
 import introMessages from 'App/introMessages'
+import {startMessage} from 'App/infoMessages'
 import TypingAnimation from 'App/components/TypingAnimation'
 
-const FACTOR = 10;
+const FACTOR = 8;
 
 /*<img className="message__inline-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" />*/
 
@@ -13,8 +14,9 @@ export default class Intro extends React.Component {
     super(props)
     this.state = {
       started: false,
+      done: false,
       step: 0,
-      typing: null
+      typing: null,
     }
 
     this.handleDone = this.handleDone.bind(this);
@@ -28,7 +30,7 @@ export default class Intro extends React.Component {
       })
 
       if(this.state.step < introMessages.length) {
-        const waitingDuration = Math.random() * 2.5 * FACTOR + 2 * FACTOR;
+        const waitingDuration =  Math.random() * 2.5 * FACTOR + 2 * FACTOR;
         window.setTimeout(() => {
           this.setState({
             typing: introMessages[this.state.step].speaker
@@ -36,6 +38,7 @@ export default class Intro extends React.Component {
         }, waitingDuration)
       }
     } else {
+      this.setState({done: true});
       this.props.onDone()
     }
   }
@@ -43,27 +46,27 @@ export default class Intro extends React.Component {
     this.setState({started: true});
     window.setTimeout(() => {
       this.setState({typing: introMessages[0].speaker});
-      window.setTimeout(this.handleDone, 2500);
-    }, 1000);
+      window.setTimeout(this.handleDone, 1000);
+    }, 700);
   }
   getIntroMessage() {
     return (
       <div>
-        <div>
-          You're about to witness a discussion between two of Google's most advanced algorithms, <a href="https://cloud.google.com/vision/">Cloud Vision</a> and <a target="_blank" href="https://www.google.de/imghp?tbm=isch">Image Search</a>. It might get heated. They might use strong language.
+        <div className="message__meta-content">
+          You're about to witness a discussion between two of Google's most advanced algorithms, <a target="_blank" href="https://www.google.de/imghp?tbm=isch">🔍 Google Image Search</a> and <a href="https://cloud.google.com/vision/">👀 Cloud Vision</a> Google's image recognition algorithm. Be prepared. It might get heated. They might use strong language.
         </div>
-        <div><span className="message__start-button" onClick={this.start}>Start</span></div>
+        <div style={{visibility: this.state.started ? 'hidden' : 'visible'}}>
+          <span className="message__start-button" onClick={this.start}>Start</span>
+        </div>
       </div>
     )
   }
   render() {
     return (
       <div className="conversation">
-        {!this.state.started &&
-          <Message speaker='META'>
-            {this.getIntroMessage()}
-          </Message>
-        }
+        <Message speaker='INTRO'>
+          {this.getIntroMessage()}
+        </Message>
         {introMessages.slice(0, this.state.step).map((message, i) => {
           const isLast = i === introMessages.length - 1;
           const typingDuration = isLast ? 0 : Math.random() * 3 * FACTOR + 4 * FACTOR;
@@ -80,6 +83,11 @@ export default class Intro extends React.Component {
           )
         })}
         {this.state.typing && <TypingAnimation speaker={this.state.typing} />}
+        {this.state.done &&
+          <Message speaker='HINT'>
+            {startMessage}
+          </Message>
+        }
       </div>
     )
   }

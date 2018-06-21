@@ -1,6 +1,6 @@
 import store from 'App/store'
 import React, { Fragment } from 'react'
-import {uploadImage, startConversation, fetchExchange} from 'App/actions'
+import {startConversation, startTyping} from 'App/actions'
 
 const FILE_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
 
@@ -23,7 +23,14 @@ export default class Inputs extends React.Component {
   }
   componentDidMount() {
     if(this.textInput) {
-      this.textInput.focus()
+      this.textInput.focus();
+    }
+  }
+  componentDidUpdate() {
+    if(this.props.disabled) {
+      this.textInput.blur();
+    } else {
+      this.textInput.focus();
     }
   }
   handleTermSelected() {
@@ -80,12 +87,13 @@ export default class Inputs extends React.Component {
   handleTermUpload() {
     store.dispatch(startConversation({
       query: this.state.termValue
-    }))
+    }));
+
     this.setState({
       submitted: true, 
       error: null,
       termValue: null
-    })
+    });
   }
   handleClearTermInput() {
     this.setState({termValue: null})
@@ -100,6 +108,7 @@ export default class Inputs extends React.Component {
           onChange={this.handleImageSelected}
           type="file" 
           name="image"
+          accept=".png,.jpg,.jpeg"
           value=""
           className="input__file-input"
           id="image-upload"/>
@@ -122,7 +131,6 @@ export default class Inputs extends React.Component {
           ref={(ref) => this.textInput = ref} 
           onInput={this.handleTermInput}
           value={value === null ? '' : value}
-          autoFocus
           placeholder="Enter a search term"
           type="text"/>
         {this.state.termValue && <button 
@@ -132,8 +140,9 @@ export default class Inputs extends React.Component {
     )
   }
   render() {
+    const {disabled} = this.props;
     return (
-      <div className="inputs">
+      <div className={`inputs ${disabled ? 'is-disabled' : ''}`}>
         <div className="input input--term">
           {this.renderTermInput()}
         </div>
