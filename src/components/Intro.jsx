@@ -5,7 +5,6 @@ import introMessages from 'App/introMessages'
 import {startMessage} from 'App/infoMessages'
 import TypingAnimation from 'App/components/TypingAnimation'
 
-const FACTOR = 8;
 
 /*<img className="message__inline-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" />*/
 
@@ -20,6 +19,7 @@ export default class Intro extends React.Component {
     }
 
     this.handleDone = this.handleDone.bind(this);
+    this.handleProbablyRead = this.handleProbablyRead.bind(this);
     this.start = this.start.bind(this);
   }
   handleDone() {
@@ -28,18 +28,16 @@ export default class Intro extends React.Component {
         step: this.state.step + 1,
         typing: null
       })
-
-      if(this.state.step < introMessages.length) {
-        const waitingDuration =  Math.random() * 2.5 * FACTOR + 2 * FACTOR;
-        window.setTimeout(() => {
-          this.setState({
-            typing: introMessages[this.state.step].speaker
-          })
-        }, waitingDuration)
-      }
     } else {
       this.setState({done: true});
       this.props.onDone()
+    }
+  }
+  handleProbablyRead() {
+    if(this.state.step < introMessages.length) {
+      this.setState({
+        typing: introMessages[this.state.step].speaker
+      })
     }
   }
   start() {
@@ -69,11 +67,11 @@ export default class Intro extends React.Component {
         </Message>
         {introMessages.slice(0, this.state.step).map((message, i) => {
           const isLast = i === introMessages.length - 1;
-          const typingDuration = isLast ? 0 : Math.random() * 3 * FACTOR + 4 * FACTOR;
           return (
-            <Message 
-              durationUntilNext={typingDuration}
+            <Message
+              speak={this.props.speak}
               onDone={this.handleDone}
+              onProbablyRead={this.handleProbablyRead}
               key={i} 
               showName={true} 
               speaker={message.speaker} 

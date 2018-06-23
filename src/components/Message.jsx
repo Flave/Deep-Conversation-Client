@@ -1,8 +1,11 @@
 import React, { Fragment } from 'react';
 import { timer } from 'd3-timer';
 import { capitalize } from 'App/utils';
+import {SpeechSynth} from './speechSynth';
 
-const FACTOR = 2000;
+let speechSynth = SpeechSynth();
+
+const FACTOR = 400;
 
 export default class Conversation extends React.Component {
   constructor(props) {
@@ -25,26 +28,40 @@ export default class Conversation extends React.Component {
     this.scrollToBottom()
   }
   componentDidMount() {
-    let durationUntilNext = this.props.durationUntilNext || 4000;
-    let durationUntilRead = this.props.durationUntilRead || 3000;
+    const {speak, speaker } = this.props;
 
-    if(this.props.image) {
-      durationUntilNext += 1000;
-      durationUntilRead += 1000;
-    }
+    // Proceed with speaking
+    if(speak) {
+      const textContent = this.messageEl.textContent;
+      const speechText = textContent.replace(/(🙈|🙊|😂|🤓|😤|🙃|😛|🤔|😄|🙄|😩|👀|❤|🙄)/g, '')
 
-    if(this.props.image) {
+      speechSynth.utter(speechText, speaker, () => {
+        this.props.onProbablyRead && this.props.onProbablyRead()
+        window.setTimeout(() => {
+          this.props.onDone && this.props.onDone()
+        }, FACTOR * 1.5);
+        if(this.props.image) {
+          window.setTimeout(() => {
+            this.setState({renderImage: true})
+          }, FACTOR * 2.5);
+        }
+      })
+    // Proceed without speaking
+    } else {
       window.setTimeout(() => {
-        this.setState({renderImage: true})
-      }, 1000)      
-    }
-    window.setTimeout(() => {
-      this.props.onDone && this.props.onDone()
-    }, durationUntilNext)
+        this.props.onProbablyRead && this.props.onProbablyRead()  
+      }, FACTOR * 2);
+      
+      window.setTimeout(() => {
+        this.props.onDone && this.props.onDone()
+      }, FACTOR * 3.5);
 
-    window.setTimeout(() => {
-      this.props.onProbablyRead && this.props.onProbablyRead()
-    }, durationUntilRead)
+      if(this.props.image) {
+        window.setTimeout(() => {
+          this.setState({renderImage: true})
+        }, FACTOR * 4.5);
+      }
+    }
   }
   render() {
     const { speaker, type, image, children, showName } = this.props;
@@ -55,7 +72,7 @@ export default class Conversation extends React.Component {
       <Fragment>
         <div className={`message message--${speaker}`}>
           {showName && <div className="message__sender-name">{speakerName}</div>}
-          <div className="message__content">
+          <div ref={ref => this.messageEl = ref} className="message__content">
             {children}
           </div>
         </div>

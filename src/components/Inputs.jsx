@@ -3,6 +3,26 @@ import React, { Fragment } from 'react'
 import {startConversation, startTyping} from 'App/actions'
 
 const FILE_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
+const exampleTerms = [
+  'Backstreet Boys', 
+  'Climate Change', 
+  'Dust', 
+  'Plywood', 
+  'Magic Mushrooms', 
+  'Deep Dream', 
+  'Neurology',
+  'Romance', 
+  'Sundar Pichai', 
+  'Larry Page', 
+  'Sergey Brin',
+  'Artificiallity'
+]
+
+const getExampleTerm = () => {
+  return exampleTerms.splice(Math.floor(Math.random() * exampleTerms.length), 1);
+}
+
+const examplePlaceholder = `E.g. ${getExampleTerm()}, ${getExampleTerm()}…`;
 
 export default class Inputs extends React.Component {
   constructor(props) {
@@ -62,10 +82,10 @@ export default class Inputs extends React.Component {
         type: 'image',
         error: 'This only works with PNG or JPG images. Sorry!'
       })
-    } else if(file.size > 5000000) {
+    } else if(file.size > 3000000) {
       this.setState({
         type: 'image',
-        error: `${Math.floor(file.size / 1000000)}Mb is a lot. Can you maybe try again with a smaller (< 5Mb) version of the image?`
+        error: `${Math.floor(file.size / 1000000)}Mb is a lot. Can you maybe try again with a smaller (< 3Mb) version of the image?`
       })
     } else {
       reader.onload = (e) => {
@@ -131,7 +151,7 @@ export default class Inputs extends React.Component {
           ref={(ref) => this.textInput = ref} 
           onInput={this.handleTermInput}
           value={value === null ? '' : value}
-          placeholder="Enter a search term"
+          placeholder={examplePlaceholder}
           type="text"/>
         {this.state.termValue && <button 
           onClick={this.handleTermUpload} 

@@ -1,7 +1,7 @@
 import React from 'react'
 import store from './store'
 import Conversations from './components/Conversations'
-import {endConversation} from './actions'
+import Header from './components/Header'
 
 class App extends React.Component {
   constructor(props) {
@@ -14,7 +14,8 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="app-container">        
+      <div className="app-container">
+        <Header />
         <Conversations />
       </div>
     )

@@ -96,6 +96,7 @@
 }
 
 .message__content {
+  display: inline-block;
   background-color: $c-accent;
   color: #fff;
   border-radius: 25px;

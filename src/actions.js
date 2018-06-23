@@ -24,6 +24,10 @@ export const toggleInputs = () => ({
   type: 'TOGGLE_INPUTS'
 })
 
+export const toggleSpeak = () => ({
+  type: 'TOGGLE_SPEAK'
+})
+
 export const startTyping = (data) => ({
   type: 'START_TYPING',
   data

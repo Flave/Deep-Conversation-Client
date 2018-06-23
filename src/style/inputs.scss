@@ -84,6 +84,10 @@
   // color: transparent;
   // text-shadow: 0 0 0 #fff;
 
+  &::placeholder {
+    color: #aaa;
+  }
+
   &:focus {
     outline: none;
     border: none;
