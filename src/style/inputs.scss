@@ -1,16 +1,16 @@
 .inputs {
-  border-top: 1px solid #ddd;
   display: flex;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
-  background-color: #fff;
+  //font-family: 'Helvetica', sans;
 
   &.is-disabled {
     opacity: .5;
     pointer-events: none;
+    display: none;
   }
 }
 
@@ -26,27 +26,31 @@
 
 .input {
   width: 50%;
-  padding: 20px;
+  padding: 20px 0;
   position: relative;
-
-  &--term {
-    border-right: 1px solid #ddd;
-  }
-
-  &--image {
-    text-align: center;
-  }
+  text-align: center;
 }
 
 .input__btn {
-  color: $c-accent;
+  color: #fff;
   border: none;
   cursor: pointer;
+  padding: 18px 26px;
+  line-height: 1em;
+  border-radius: 40px;
+  display: inline-block;
+  background-color: $c-accent;
+  width: 80%;
 
   &--term {
     position: absolute;
-    right: 30px;
+    right: 10%;
     top: 50%;
+    width: auto;
+    border-top-left-radius: 0;
+    color: $c-accent;
+    background-color: transparent;
+
     transform: translateY(-50%);
   }
 }
@@ -76,16 +80,26 @@
   box-shadow:none;
   margin-left: 10px;
   display: inline-block;
-  width: 100%;
   padding-right: 40px;
+  width: 80%;
   //border-bottom: 1px solid rgba(255, 255, 255, .1);
 
   // border: none;
   // color: transparent;
   // text-shadow: 0 0 0 #fff;
+  background-color: #d6d6d6;
+  border-radius: 30px;
+  padding: 18px 26px;
+  line-height: 1em;
+  overflow: hidden;
+
 
   &::placeholder {
-    color: #aaa;
+    color: #888;
+    opacity: .5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    whitespace: nowrap;
   }
 
   &:focus {

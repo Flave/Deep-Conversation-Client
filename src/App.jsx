@@ -2,6 +2,7 @@ import React from 'react'
 import store from './store'
 import Conversations from './components/Conversations'
 import Header from './components/Header'
+import Info from './components/Info'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,10 +14,12 @@ class App extends React.Component {
     });
   }
   render() {
+    const {showInfo} = store.getState();
     return (
       <div className="app-container">
         <Header />
         <Conversations />
+        {showInfo && <Info />}
       </div>
     )
   }

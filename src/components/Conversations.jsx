@@ -12,7 +12,8 @@ import {
   uploadImage, 
   advanceConversation, 
   endConversation,
-  startTyping
+  startTyping,
+  start
 } from 'App/actions'
 
 const FACTOR = 1000;
@@ -29,6 +30,9 @@ export default class Conversation extends React.Component {
   constructor(props) {
     super(props)
     this.renderConversation = this.renderConversation.bind(this)
+  }
+  handleStart() {
+    store.dispatch(start());
   }
   handleIntroDone() {
     store.dispatch(toggleInputs())
@@ -110,13 +114,17 @@ export default class Conversation extends React.Component {
     )
   }
   render() {
-    const { speak, conversations, endReached, showInputs } = store.getState()
+    const { speak, started, conversations, endReached, showInputs } = store.getState()
     let className = 'conversations';
     className += showInputs ? ' has-inputs' : '';
 
     return (
       <div style={{minHeight: window.innerHeight}} className={className}>
-        <Intro speak={speak} onDone={this.handleIntroDone} />
+        <Intro 
+          started={started} 
+          speak={speak} 
+          onStart={this.handleStart}
+          onDone={this.handleIntroDone} />
         {conversations.map(this.renderConversation)}
         {showInputs && <Inputs disabled={!endReached} />}
       </div>

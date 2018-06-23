@@ -5,14 +5,12 @@ import introMessages from 'App/introMessages'
 import {startMessage} from 'App/infoMessages'
 import TypingAnimation from 'App/components/TypingAnimation'
 
-
 /*<img className="message__inline-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" />*/
 
 export default class Intro extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      started: false,
       done: false,
       step: 0,
       typing: null,
@@ -41,19 +39,19 @@ export default class Intro extends React.Component {
     }
   }
   start() {
-    this.setState({started: true});
+    this.props.onStart()
     window.setTimeout(() => {
       this.setState({typing: introMessages[0].speaker});
       window.setTimeout(this.handleDone, 1000);
-    }, 700);
+    }, 400);
   }
   getIntroMessage() {
     return (
-      <div>
+      <div className={this.props.started ? 'is-hidden' : ''}>
         <div className="message__meta-content">
-          You're about to witness a discussion between two of Google's most advanced algorithms, <a target="_blank" href="https://www.google.de/imghp?tbm=isch">🔍 Google Image Search</a> and <a href="https://cloud.google.com/vision/">👀 Cloud Vision</a> Google's image recognition algorithm. Be prepared. It might get heated. They might use strong language.
+          You're about to witness a discussion between two of Google's most advanced algorithms, <a target="_blank" href="https://www.google.de/imghp?tbm=isch">🔍 Google Image Search</a> and <a href="https://cloud.google.com/vision/">👀 Cloud Vision</a> (Google's image recognition service). Be prepared. It might get heated. They might use strong language.
         </div>
-        <div style={{visibility: this.state.started ? 'hidden' : 'visible'}}>
+        <div>
           <span className="message__start-button" onClick={this.start}>Start</span>
         </div>
       </div>

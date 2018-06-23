@@ -1,12 +1,12 @@
 @import './normalize.scss';
 
-$base-font: 'Helvetica', monospace; //'VT323' 'OCR A Std' 'mono-space';
-$base-font-size: 22px;
+$base-font: 'Times New Roman', 'Times', serif; //'VT323' 'OCR A Std' 'mono-space';
+$base-font-size: 24px;
 
 $c-background: #fff;
-$c-accent: #0084ff;
+$c-accent: #1271ff;
 
-$body-padding: 1.5vh 1.5vw;
+$body-padding: 1.5vh 3.5vw;
 $d-inputs-height: 60px;
 
 * {
@@ -26,3 +26,5 @@ body {
 @import "./intro.scss";
 @import "./inputs.scss";
 @import "./conversations.scss";
+@import "./header.scss";
+@import "./info.scss";

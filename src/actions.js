@@ -28,6 +28,14 @@ export const toggleSpeak = () => ({
   type: 'TOGGLE_SPEAK'
 })
 
+export const start = () => ({
+  type: 'START'
+})
+
+export const toggleInfo = () => ({
+  type: 'TOGGLE_INFO'
+})
+
 export const startTyping = (data) => ({
   type: 'START_TYPING',
   data

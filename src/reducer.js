@@ -12,7 +12,9 @@ const initialState = {
   endReached: true,
   showInputs: false,
   typing: null,
-  speak: !!window.speechSynthesis
+  speak: !!window.speechSynthesis,
+  started: false,
+  showInfo: false
 }
 
 function receiveExchange(state, {data}) {
@@ -102,6 +104,7 @@ function startConversation(state, {data}) {
   return {
     ...state,
     conversations,
+    showInputs: false,
     endReached: false,
     typing: null
   };
@@ -133,6 +136,7 @@ function endConversation(state) {
 
   return {
     ...state,
+    showInputs: true,
     conversations: [...state.conversations, [...lastConversation, {...lastMessage, ended: true}]],
     endReached: true, 
     typing: null
@@ -151,8 +155,12 @@ export default (state = initialState, action) => {
     return {...state, showInputs: !state.showInputs}
   case 'TOGGLE_SPEAK':
     return {...state, speak: !state.speak}
+  case 'TOGGLE_INFO':
+    return {...state, showInfo: !state.showInfo}
   case 'START_TYPING':
     return {...state, typing: action.data}
+  case 'START':
+    return {...state, started: true}
   case 'END_CONVERSATION':
     return endConversation(state)
   default:

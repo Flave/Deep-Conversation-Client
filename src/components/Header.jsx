@@ -1,6 +1,6 @@
 import React from 'react'
 import store from 'App/store'
-import actions from 'App/actions'
+import {toggleSpeak, toggleInfo} from 'App/actions'
 
 class Header extends React.Component {
   constructor(props) {
@@ -9,12 +9,21 @@ class Header extends React.Component {
   componentDidMount() {
   }
   handleToggleSpeak() {
-    store.dispatch(actions.toggleSpeak())
+    store.dispatch(toggleSpeak())
+  }
+  handleToggleInfo() {
+    store.dispatch(toggleInfo())
   }
   render() {
+    const {speak, started} = store.getState();
+
+    if(!started) return null;
+
     return (
       <div className="header">
-        <span></span>
+        <span onClick={this.handleToggleInfo} className="header__item">info</span>/
+        {/*<span onClick={this.handleToggleSpeak} className="header__item">{speak ? '🔇' : '🔊'}</span>*/}
+        <span onClick={this.handleToggleSpeak} className="header__item">{speak ? 'mute' : 'unmute'}</span>
       </div>
     )
   }

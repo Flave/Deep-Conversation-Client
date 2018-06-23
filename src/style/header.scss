@@ -1,0 +1,18 @@
+.header {
+  position: fixed;
+  top: 10px; 
+  left: 10px;
+  z-index: 10;
+  color: $c-accent;
+  width: 100%;
+  text-align: center;
+  // text-align: right;
+  // transform: rotate(-90deg) translateX(-100%);
+  // transform-origin: top left;
+}
+
+.header__item {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 5px;
+}

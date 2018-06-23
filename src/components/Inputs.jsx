@@ -15,14 +15,16 @@ const exampleTerms = [
   'Sundar Pichai', 
   'Larry Page', 
   'Sergey Brin',
-  'Artificiallity'
+  'Artificiallity',
+  'Code',
+  'CD Rom'
 ]
 
 const getExampleTerm = () => {
   return exampleTerms.splice(Math.floor(Math.random() * exampleTerms.length), 1);
 }
 
-const examplePlaceholder = `E.g. ${getExampleTerm()}, ${getExampleTerm()}…`;
+const examplePlaceholder = `🖊 E.g. ${getExampleTerm()}, ${getExampleTerm()}…`;
 
 export default class Inputs extends React.Component {
   constructor(props) {
@@ -135,7 +137,7 @@ export default class Inputs extends React.Component {
         <label 
           className={className} 
           htmlFor={!this.state.termValue ? 'image-upload' : null}>
-          Select an image
+          🖼 Upload an image
         </label>
         {state.error && <p className="input__error">{state.error}</p>}
       </Fragment>
@@ -153,20 +155,20 @@ export default class Inputs extends React.Component {
           value={value === null ? '' : value}
           placeholder={examplePlaceholder}
           type="text"/>
-        {this.state.termValue && <button 
+        {this.state.termValue && <span 
           onClick={this.handleTermUpload} 
-          className="input__btn input__btn--term">Send</button>}
+          className="input__btn input__btn--term">Send</span>}
       </Fragment>
     )
   }
   render() {
     const {disabled} = this.props;
+
     return (
       <div className={`inputs ${disabled ? 'is-disabled' : ''}`}>
         <div className="input input--term">
           {this.renderTermInput()}
         </div>
-        <span className="inputs__separator">or</span>
         <div className="input input--image">
           {this.renderImageInput()}
         </div>

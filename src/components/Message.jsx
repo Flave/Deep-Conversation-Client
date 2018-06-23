@@ -5,7 +5,7 @@ import {SpeechSynth} from './speechSynth';
 
 let speechSynth = SpeechSynth();
 
-const FACTOR = 400;
+const FACTOR = 1000;
 
 export default class Conversation extends React.Component {
   constructor(props) {
@@ -33,7 +33,7 @@ export default class Conversation extends React.Component {
     // Proceed with speaking
     if(speak) {
       const textContent = this.messageEl.textContent;
-      const speechText = textContent.replace(/(🙈|🙊|😂|🤓|😤|🙃|😛|🤔|😄|🙄|😩|👀|❤|🙄)/g, '')
+      const speechText = textContent.replace(/(🙈|🙊|👏|😂|🤓|😤|🙃|😛|🤔|😄|🙄|😩|👀|❤|🙄)/g, '')
 
       speechSynth.utter(speechText, speaker, () => {
         this.props.onProbablyRead && this.props.onProbablyRead()
@@ -41,9 +41,7 @@ export default class Conversation extends React.Component {
           this.props.onDone && this.props.onDone()
         }, FACTOR * 1.5);
         if(this.props.image) {
-          window.setTimeout(() => {
-            this.setState({renderImage: true})
-          }, FACTOR * 2.5);
+          this.setState({renderImage: true})
         }
       })
     // Proceed without speaking
@@ -63,15 +61,25 @@ export default class Conversation extends React.Component {
       }
     }
   }
+  renderName() {
+    const { speaker } = this.props;
+    const speakerIcon = speaker === 'VISION' ? '👀' : '🔍';
+    const senderLink = speaker === 'VISION' ? 'https://cloud.google.com/vision/' : 'https://www.google.de/imghp?tbm=isch';
+    const speakerName = `${speakerIcon} ${capitalize(speaker)}`;
+
+    return (
+      <div className="message__sender">
+        <a className="message__sender-name" target="_blank" href={`${senderLink}`}>{speakerName}</a>
+      </div>
+    )
+  }
   render() {
     const { speaker, type, image, children, showName } = this.props;
-    const speakerIcon = speaker === 'VISION' ? '👀' : '🔍';
-    const speakerName = `${speakerIcon} ${capitalize(speaker)}`;
     
     return (
       <Fragment>
         <div className={`message message--${speaker}`}>
-          {showName && <div className="message__sender-name">{speakerName}</div>}
+          {showName && this.renderName()}
           <div ref={ref => this.messageEl = ref} className="message__content">
             {children}
           </div>
