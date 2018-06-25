@@ -127,7 +127,9 @@
 
   &--is-loading {
     height: 10vh;
+    width: 10vh;
     background-color: #ddd;
+    animation: image-loading 1s;
   }
 
   &:hover {
@@ -307,6 +309,18 @@
 //   }
 // }
 
+
+@keyframes image-loading {
+  0% {
+    opacity: .5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: .5;
+  }
+}
 
 @keyframes pop-in {
   0% {
