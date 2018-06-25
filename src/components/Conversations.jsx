@@ -35,7 +35,7 @@ export default class Conversation extends React.Component {
     store.dispatch(start());
   }
   handleIntroDone() {
-    store.dispatch(toggleInputs())
+    store.dispatch(toggleInputs(true))
   }
   handleNextMessage() {
     const { conversations, speaker, conversationStep, endReached } = store.getState();

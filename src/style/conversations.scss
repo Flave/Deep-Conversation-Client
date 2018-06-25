@@ -187,13 +187,23 @@
   vertical-align: middle;
 }
 
-.message__start-button {
+.message__start-button,
+.message__skip-button {
   color: $c-accent;
   display: inline-block;
   border-radius: 30px;
   margin-top: 25px;
-  padding: 10px 20px;
+  padding: 10px 25px;
   cursor: pointer;
+}
+
+.message__skip-button {
+  color: #999;
+}
+
+.message__start-button {
+  background-color: $c-accent;
+  color: #fff;
 }
 
 // TYPING ANIMATION

@@ -20,8 +20,9 @@ export const advanceConversation = () => ({
   type: 'ADVANCE_CONVERSATION'
 })
 
-export const toggleInputs = () => ({
-  type: 'TOGGLE_INPUTS'
+export const toggleInputs = (data) => ({
+  type: 'TOGGLE_INPUTS',
+  data
 })
 
 export const toggleSpeak = () => ({

@@ -13,13 +13,13 @@ $d-inputs-height: 60px;
   box-sizing: border-box;
 }
 
+
 body {
   background: $c-background;
   color: #222;
   font-family: $base-font;
   font-size: $base-font-size;
-  line-height: 1.3em;
-  letter-spacing: .01em;
+  line-height: 1.4em;
 }
 
 @import "./btn.scss";

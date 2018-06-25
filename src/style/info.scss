@@ -6,4 +6,18 @@
   bottom: 0;
   background-color: rgba(255, 255, 255, .95);
   z-index: 999;
+  overflow: scroll;
+  font-size: 20px;
+  line-height: 1.55em;
+}
+
+.info__inner {
+  padding: 2vh 3vw;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+.info__close-btn {
+  color: $c-accent;
+  cursor: pointer;
 }

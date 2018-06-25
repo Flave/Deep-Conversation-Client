@@ -59,6 +59,7 @@ function receiveExchange(state, {data}) {
 
     state.buffer = [{
       label,
+      labels: data.labels,
       query: data.query,
       speaker: 'VISION',
       step
@@ -69,6 +70,7 @@ function receiveExchange(state, {data}) {
         ...state.buffer,
         {
           label,
+          labels: data.labels,
           query: data.query,
           speaker: 'SEARCH',
           step: 'LOOP'
@@ -77,6 +79,7 @@ function receiveExchange(state, {data}) {
   } else {
     conversation.push({
       label,
+      labels: data.labels,
       speaker: 'VISION',
       step: 'START'
     })
@@ -143,6 +146,14 @@ function endConversation(state) {
   }
 }
 
+function toggleInputs(state, {data}) {
+  const explicit = data !== undefined;
+  return {
+    ...state, 
+    showInputs: explicit ? data : !state.showInputs
+  }
+}
+
 export default (state = initialState, action) => {
   switch (action.type) {
   case 'RECEIVE_EXCHANGE':
@@ -152,7 +163,7 @@ export default (state = initialState, action) => {
   case 'ADVANCE_CONVERSATION':
     return advanceConversation(state)
   case 'TOGGLE_INPUTS':
-    return {...state, showInputs: !state.showInputs}
+    return toggleInputs(state, action)
   case 'TOGGLE_SPEAK':
     return {...state, speak: !state.speak}
   case 'TOGGLE_INFO':

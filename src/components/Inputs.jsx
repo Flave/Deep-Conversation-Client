@@ -17,7 +17,8 @@ const exampleTerms = [
   'Sergey Brin',
   'Artificiallity',
   'Code',
-  'CD Rom'
+  'CD Rom',
+  'Facial Cream'
 ]
 
 const getExampleTerm = () => {

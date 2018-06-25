@@ -14,10 +14,12 @@ export default class Intro extends React.Component {
       done: false,
       step: 0,
       typing: null,
+      skip: false
     }
 
     this.handleDone = this.handleDone.bind(this);
     this.handleProbablyRead = this.handleProbablyRead.bind(this);
+    this.skipIntro = this.skipIntro.bind(this);
     this.start = this.start.bind(this);
   }
   handleDone() {
@@ -45,6 +47,16 @@ export default class Intro extends React.Component {
       window.setTimeout(this.handleDone, 1000);
     }, 400);
   }
+  skipIntro() {
+    this.setState({
+      skip: true,
+      done: true,
+      typing: null,
+      step: introMessages.length
+    })
+    this.props.onStart();
+    this.props.onDone();
+  }
   getIntroMessage() {
     return (
       <div className={this.props.started ? 'is-hidden' : ''}>
@@ -53,21 +65,27 @@ export default class Intro extends React.Component {
         </div>
         <div>
           <span className="message__start-button" onClick={this.start}>Start</span>
+          {this.getSkipButton()}
         </div>
       </div>
     )
   }
+  getSkipButton() {
+    return <span className="message__skip-button" onClick={this.skipIntro}>Skip Intro</span>
+  }
   render() {
+    const {step, typing, done, skip} = this.state;
+    const {started, speak} = this.props;
+
     return (
       <div className="conversation">
         <Message speaker='INTRO'>
-          {this.getIntroMessage()}
+          {started ? this.getSkipButton() : this.getIntroMessage()}
         </Message>
-        {introMessages.slice(0, this.state.step).map((message, i) => {
-          const isLast = i === introMessages.length - 1;
+        {introMessages.slice(0, step).map((message, i) => {
           return (
             <Message
-              speak={this.props.speak}
+              speak={!skip && speak}
               onDone={this.handleDone}
               onProbablyRead={this.handleProbablyRead}
               key={i} 
@@ -78,8 +96,8 @@ export default class Intro extends React.Component {
             </Message>
           )
         })}
-        {this.state.typing && <TypingAnimation speaker={this.state.typing} />}
-        {this.state.done &&
+        {typing && <TypingAnimation speaker={typing} />}
+        {done &&
           <Message speaker='HINT'>
             {startMessage}
           </Message>
