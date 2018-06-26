@@ -6,7 +6,7 @@ module.exports = merge(common, {
   devtool: 'cheap-module-eval-source-map',
   devServer: {
     contentBase: './dist',
-    port: 9000,
+    port: 9001,
     hot: true,
     headers: {
       "Access-Control-Allow-Origin": "*",

@@ -104,6 +104,14 @@
       background-color: #ddd;
     }
   }
+
+  @include respond-to('medium') {
+    max-width: 60%;
+  }
+
+  @include respond-to('small') {
+    max-width: 80%;
+  }
 }
 
 .message__content {
@@ -112,6 +120,7 @@
   border-radius: 25px;
   padding: 10px 0;
   margin-bottom: 10px;
+  //box-shadow: 0 2px 12px rgba(255, 100, 80, .5);
 }
 
 .message__image-container {
