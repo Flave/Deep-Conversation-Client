@@ -5,12 +5,17 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  //font-family: 'Helvetica', sans;
 
   &.is-disabled {
     opacity: .5;
     pointer-events: none;
     display: none;
+  }
+
+  @include respond-to('small') {
+    display: block;
+    background-color: $c-background;
+    padding: 5px 0;
   }
 }
 
@@ -29,6 +34,11 @@
   padding: 20px 0;
   position: relative;
   text-align: center;
+
+  @include respond-to('small') {
+    width: 100%;
+    padding: 5px 0;
+  }
 }
 
 .input__btn {
@@ -37,21 +47,30 @@
   cursor: pointer;
   padding: 18px 26px;
   line-height: 1em;
-  border-radius: 40px;
   display: inline-block;
   background-color: $c-accent;
   width: 80%;
 
-  &--term {
-    position: absolute;
-    right: 10%;
-    top: 50%;
-    width: auto;
-    border-top-left-radius: 0;
-    color: $c-accent;
-    background-color: transparent;
 
-    transform: translateY(-50%);
+  @include respond-to('small') {
+    width: 95%;
+    padding: 16px 26px;
+  }
+}
+
+.input__term-submit {
+  position: absolute;
+  right: 14%;
+  top: 50%;
+  width: auto;
+  border-top-left-radius: 0;
+  color: $c-accent;
+  background-color: transparent;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  @include respond-to('small') {
+    right: 6%;
   }
 }
 
@@ -69,33 +88,25 @@
 }
 
 .input__text-input {
-  background-color: transparent;
-  border: none;
-  color: inherit;
+  color: #fff;
+  background-color: $c-background;
   font-family: inherit;
   letter-spacing: inherit;
   font-size: inherit;
   outline: none;
   outline-style:none;
   box-shadow:none;
-  margin-left: 10px;
   display: inline-block;
   padding-right: 40px;
   width: 80%;
-  //border-bottom: 1px solid rgba(255, 255, 255, .1);
-
-  // border: none;
-  // color: transparent;
-  // text-shadow: 0 0 0 #fff;
-  background-color: #d6d6d6;
-  border-radius: 30px;
+  border: 1px solid #fff;
   padding: 18px 26px;
   line-height: 1em;
   overflow: hidden;
 
 
   &::placeholder {
-    color: #888;
+    color: #999;
     opacity: .5;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -104,20 +115,23 @@
 
   &:focus {
     outline: none;
-    border: none;
+  }
+
+  @include respond-to('small') {
+    width: 95%;
+    padding: 16px 26px;
   }
 }
 
 .input__error {
   color: #fff;
   position: absolute;
-  background-color: #ff4ab4;
+  background-color: $c-accent;
   bottom: 85px;
   margin: 0;
   left: 50%;
   transform: translateX(-50%);
   padding: 20px;
-  border-radius: 30px;
 
   &:after {
     content: "";

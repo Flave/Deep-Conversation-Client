@@ -18,7 +18,7 @@ export default class Conversation extends React.Component {
   }
   scrollToBottom() {
     const totalHeight = document.body.clientHeight;
-    window.scrollTo(0, totalHeight);    
+    window.scrollTo(0, totalHeight);
   }
   handleImageLoad() {
     this.scrollToBottom();
@@ -33,7 +33,7 @@ export default class Conversation extends React.Component {
     // Proceed with speaking
     if(speak) {
       const textContent = this.messageEl.textContent;
-      const speechText = textContent.replace(/(🙈|🙊|👏|😂|🤓|😤|🙃|😛|🤔|😄|🙄|😩|👀|❤|🙄)/g, '')
+      const speechText = textContent.replace(/(🙈|🙊|👏|😂|🤓|😤|🙃|😛|🤔|😄|😊|🙄|😩|👀|❤|🙄)/g, '')
 
       speechSynth.utter(speechText, speaker, () => {
         this.props.onProbablyRead && this.props.onProbablyRead()
@@ -65,23 +65,26 @@ export default class Conversation extends React.Component {
     const { speaker } = this.props;
     const speakerIcon = speaker === 'VISION' ? '👀' : '🔍';
     const senderLink = speaker === 'VISION' ? 'https://cloud.google.com/vision/' : 'https://www.google.de/imghp?tbm=isch';
-    const speakerName = `${speakerIcon} ${capitalize(speaker)}`;
 
     return (
       <div className="message__sender">
-        <a className="message__sender-name" target="_blank" href={`${senderLink}`}>{speakerName}</a>
+        <a className="message__sender-link" target="_blank" href={`${senderLink}`}>
+          <span className="message__sender-icon">{speakerIcon}</span><span className="message__sender-name">{capitalize(speaker)}</span>
+        </a>
       </div>
     )
   }
   render() {
-    const { speaker, type, image, children, showName } = this.props;
-    
+    const { speaker, type, image, children, showName, isGroup } = this.props;
+    let className = `message message--${speaker}`;
+    className += isGroup ? ' message--group' : '';
     return (
       <Fragment>
-        <div className={`message message--${speaker}`}>
+        <div className={className}>
           {showName && this.renderName()}
           <div ref={ref => this.messageEl = ref} className="message__content">
             {children}
+            <span className="message__tip" />
           </div>
         </div>
         {

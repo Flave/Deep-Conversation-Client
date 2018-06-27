@@ -4,6 +4,7 @@ import Message from './Message'
 import introMessages from 'App/introMessages'
 import {startMessage} from 'App/infoMessages'
 import TypingAnimation from 'App/components/TypingAnimation'
+import Title from './Title';
 
 /*<img className="message__inline-image" src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" />*/
 
@@ -23,6 +24,7 @@ export default class Intro extends React.Component {
     this.start = this.start.bind(this);
   }
   handleDone() {
+    if(this.state.done) return;
     if(this.state.step < introMessages.length) {
       this.setState({
         step: this.state.step + 1,
@@ -30,7 +32,7 @@ export default class Intro extends React.Component {
       })
     } else {
       this.setState({done: true});
-      this.props.onDone()
+      this.props.onDone();
     }
   }
   handleProbablyRead() {
@@ -65,6 +67,7 @@ export default class Intro extends React.Component {
         </div>
         <div>
           <span className="message__start-button" onClick={this.start}>Start</span>
+          <br/>
           {this.getSkipButton()}
         </div>
       </div>
@@ -79,6 +82,7 @@ export default class Intro extends React.Component {
 
     return (
       <div className="conversation">
+        <Title />
         <Message speaker='INTRO'>
           {started ? this.getSkipButton() : this.getIntroMessage()}
         </Message>

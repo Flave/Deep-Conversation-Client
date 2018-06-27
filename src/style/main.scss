@@ -1,15 +1,26 @@
 @import './normalize.scss';
 
-$base-font: 'Times New Roman', 'Times', serif; //'VT323' 'OCR A Std' 'mono-space';
+//$base-font: 'Inconsolata', 'Times', serif; //'VT323' 'OCR A Std' 'mono-space';
+$base-font: 'Share Tech Mono', monospace;
 $base-font-size: 24px;
 
-$c-background: #fff;
-$c-accent: #1271ff;
+$c-background: #222;
+$c-text: #fff;
+$c-accent: #fdcc18; //#186aff;
+$c-message-bg: #808080;
+$c-message-text: $c-background;
+$c-info-bg: #ddd;
+$c-info-text: $c-background;
+$c-intro-bg: #5f5f5f;
+$c-intro-text: $c-background;
+$c-cta: #444;
+$c-cta-text: #444;
 
 $body-padding: 1.5vh 3.5vw;
 $d-inputs-height: 60px;
 
 $breakpoints: (
+  'mini':  450px,
   'small':  767px,
   'medium': 992px,
   'large':  1200px
@@ -38,10 +49,23 @@ $breakpoints: (
 
 body {
   background: $c-background;
-  color: #222;
+  color: $c-text;
   font-family: $base-font;
   font-size: $base-font-size;
-  line-height: 1.4em;
+  line-height: 1.33em;
+  letter-spacing: -.02em;
+
+  @include respond-to('medium') {
+    font-size: 22px;
+  }
+
+  @include respond-to('small') {
+    font-size: 20px;
+  }
+}
+
+a {
+  color: $c-accent;
 }
 
 @import "./btn.scss";

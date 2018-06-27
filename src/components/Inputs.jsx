@@ -1,6 +1,6 @@
 import store from 'App/store'
 import React, { Fragment } from 'react'
-import {startConversation, startTyping} from 'App/actions'
+import {startConversation} from 'App/actions'
 
 const FILE_TYPES = ['image/png', 'image/jpg', 'image/jpeg']
 const exampleTerms = [
@@ -25,7 +25,7 @@ const getExampleTerm = () => {
   return exampleTerms.splice(Math.floor(Math.random() * exampleTerms.length), 1);
 }
 
-const examplePlaceholder = `🖊 E.g. ${getExampleTerm()}, ${getExampleTerm()}…`;
+const examplePlaceholder = `E.g. ${getExampleTerm()}, ${getExampleTerm()}…`;
 
 export default class Inputs extends React.Component {
   constructor(props) {
@@ -138,7 +138,7 @@ export default class Inputs extends React.Component {
         <label 
           className={className} 
           htmlFor={!this.state.termValue ? 'image-upload' : null}>
-          🖼 Upload an image
+          Upload an image
         </label>
         {state.error && <p className="input__error">{state.error}</p>}
       </Fragment>
@@ -158,7 +158,7 @@ export default class Inputs extends React.Component {
           type="text"/>
         {this.state.termValue && <span 
           onClick={this.handleTermUpload} 
-          className="input__btn input__btn--term">Send</span>}
+          className="input__term-submit">Send</span>}
       </Fragment>
     )
   }

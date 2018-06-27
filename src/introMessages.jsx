@@ -4,7 +4,7 @@ export default [
   {
     speaker: 'VISION',
     step: 'INTRO',
-    content: <span>Hey! What's Up?</span>
+    content: <span>Hey! What's Up 😊?</span>
   },
   {
     speaker: 'SEARCH',
@@ -24,7 +24,7 @@ export default [
   {
     speaker: 'VISION',
     step: 'INTRO',
-    content: <span>Same here. Cute stuff, booring stuff and stuff I honestly never wanted to see &hellip;</span>
+    content: <span>Same here. Cute stuff, booring stuff and stuff I honestly never wanted to see&hellip;</span>
   },
 ]
  

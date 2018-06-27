@@ -33,7 +33,7 @@ export default class TypingAnimtion extends React.Component {
     const {speaker} = this.props;
     let dots = '';
     for(let i=0; i<this.state.index % 4; i++) {
-      dots += '. ';
+      dots += '.';
     }
     return (
       <div className={`typing typing--${speaker}`}>

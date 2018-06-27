@@ -99,6 +99,7 @@ export default class Conversation extends React.Component {
           image={message.image}
           speaker={message.speaker}
           showName={!isMessageGroup}
+          isGroup={isMessageGroup}
           key={`${mIndex}`}>
           {getMessage({...message, id: `${cIndex}-${mIndex}`, stepIndex: mIndex - 2})}
         </Message>
@@ -126,7 +127,7 @@ export default class Conversation extends React.Component {
           onStart={this.handleStart}
           onDone={this.handleIntroDone} />
         {conversations.map(this.renderConversation)}
-        {showInputs && <Inputs disabled={!endReached} />}
+        {showInputs && <Inputs />}
       </div>
     )
   }
