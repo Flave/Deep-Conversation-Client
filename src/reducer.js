@@ -1,4 +1,5 @@
 import _find from 'lodash/find';
+import {CAN_SPEAK} from './constants';
 
 // {
 //   query: searchterm,
@@ -12,7 +13,7 @@ const initialState = {
   endReached: true,
   showInputs: false,
   typing: null,
-  speak: !!window.speechSynthesis,
+  speak: CAN_SPEAK,
   started: false,
   showInfo: false
 }

@@ -37,4 +37,12 @@
 
 .intro__title-letter {
   filter: url(#filter);
+  -webkit-filter: url(#filter);
+  padding: 8px 0;
+}
+
+@-moz-document url-prefix() { 
+  .intro__title-letter {
+     filter: none;
+  }
 }

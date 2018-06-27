@@ -48,11 +48,11 @@ export default class Conversation extends React.Component {
     } else {
       window.setTimeout(() => {
         this.props.onProbablyRead && this.props.onProbablyRead()  
-      }, FACTOR * 2);
+      }, FACTOR * 4);
       
       window.setTimeout(() => {
         this.props.onDone && this.props.onDone()
-      }, FACTOR * 3.5);
+      }, FACTOR * 4.5);
 
       if(this.props.image) {
         window.setTimeout(() => {

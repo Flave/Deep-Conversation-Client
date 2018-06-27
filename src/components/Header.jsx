@@ -1,5 +1,6 @@
 import React from 'react'
 import store from 'App/store'
+import {CAN_SPEAK} from 'App/constants';
 import {toggleSpeak, toggleInfo} from 'App/actions'
 
 class Header extends React.Component {
@@ -21,9 +22,8 @@ class Header extends React.Component {
 
     return (
       <div className="header">
-        <span onClick={this.handleToggleInfo} className="header__item">info</span>/
-        {/*<span onClick={this.handleToggleSpeak} className="header__item">{speak ? '🔇' : '🔊'}</span>*/}
-        <span onClick={this.handleToggleSpeak} className="header__item">{speak ? 'mute' : 'unmute'}</span>
+        <span onClick={this.handleToggleInfo} className="header__item">info</span>{CAN_SPEAK && '/'}
+        {CAN_SPEAK && <span onClick={this.handleToggleSpeak} className="header__item">{speak ? 'mute' : 'unmute'}</span>}
       </div>
     )
   }
